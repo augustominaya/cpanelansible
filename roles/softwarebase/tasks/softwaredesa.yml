@@ -1,4 +1,34 @@
 #la variable ambiente es exportada a nivel del entorno y la accede cualquier roles
-- name: ver variable
-  debug:
-    msg: 'mostrar variable desde softwaredesa -> {{ambiente}}'
+# - name: ver variable
+#   debug:
+#     msg: 'mostrar variable desde softwaredesa -> {{devpro}}'
+- name: We print the steps to execute, Steps to work STEP_02.00 TO STEP_0*.0*
+  action: command echo "Steps to work STEP_02.00 TO STEP_0*.0*"
+  tags: soft_dev
+
+- name: STEP_02.01 -> Cloc installation.
+  apt: name=cloc state=latest
+  tags: soft_dev
+
+- name: STEP_02.02 -> samba installation.
+  apt:
+    name:
+      - samba
+      - samba-common
+    state: present
+  tags: soft_dev
+
+- name: STEP_02.03 -> Ensure Samba is running.
+  service:
+    name: smbd
+    state: started
+    enabled: true
+  tags: soft_dev
+
+- name: STEP_02.04 -> Samba configuration
+  template:
+    dest: "/etc/samba/"
+    src: smb.conf
+  notify:
+    - Restart_Samba
+  tags: soft_dev

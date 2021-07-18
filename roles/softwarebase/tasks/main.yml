@@ -1,7 +1,7 @@
-- name: PASO_01 - Instalacion de software
+- name: STEP_01 - Software installation.
   include: softwarebase.yml
-#Incluimos el archivo softwaredesa para un ambiente de desarrollo
-- name: Imprimir variable capturada por pantalla
+#We include the softwaredesa file for a development environment
+- name: we include the file to install software for development.
   include: softwaredesa.yml
-  when: ambiente == "desa"
+  when: devpro == "dev"
   #when: "'desa' in ambiente"
