@@ -1,0 +1,12 @@
+- name: PASO_01.01 -> Actualizacion Lista de paquetes
+  apt: update_cache=yes
+- name: PASO_01.02 -> Actualizacion de paquetes
+  apt: upgrade=dist
+- name: PASO_01.03 -> Instalacion de sysstat para el iodelay
+  apt: name=sysstat state=latest
+- name: PASO_01.04 -> Instalacion de cpulimit para limitar los procesos
+  apt: name=cpulimit state=latest
+- name: PASO_01.05 -> Instalacion de expect
+  apt: name=expect state=latest
+- name: PASO_01.06 -> Instalacion python3
+  apt: name=python3-pip state=latest

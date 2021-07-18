@@ -1,0 +1,22 @@
+# Archivo MAIN para instalar el Cpanel
+# ejecucion script para desa --> ansible-playbook -i inventario instalar_cpanel.yml -e ambiente=desa
+- name: Inicia la instalacion de cpanel con Ansible
+  hosts: cpanelserver
+  remote_user: aminaya
+  become: true
+  gather_facts: true
+
+#Preguntamos que entorno vamos a trabajar - pro o desa
+  vars_prompt:
+    - name: ambiente
+      prompt: Favor de introducir el ambiente - pro o desa
+      private: no
+
+#Se ejecutara el include siempre y cuando la distrubucion es ubuntu
+  tasks:
+    - fail: msg="La Distro es = {{ ansible_distribution }}, solo se puede instalar en Ubuntu"
+      when: ansible_distribution != "Ubuntu"
+
+  roles:
+    #llamamos al roll para instalar software base
+    - { role: softwarebase}

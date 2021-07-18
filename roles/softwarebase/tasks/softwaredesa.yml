@@ -1,0 +1,4 @@
+#la variable ambiente es exportada a nivel del entorno y la accede cualquier roles
+- name: ver variable
+  debug:
+    msg: 'mostrar variable desde softwaredesa -> {{ambiente}}'
