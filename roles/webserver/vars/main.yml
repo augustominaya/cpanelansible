@@ -1,2 +1,2 @@
 ---
-# vars file for webserver
+controlpanel_dir: '/var/www/controlpanel'

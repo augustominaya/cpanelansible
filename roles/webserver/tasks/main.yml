@@ -1,2 +1,3 @@
----
-# tasks file for webserver
+- name: STEP_03 - Apache2 installation.
+  include: apache2.yml
+  tags: [webserver,STEP_03]

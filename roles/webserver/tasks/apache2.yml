@@ -1,0 +1,39 @@
+---
+# tasks file for webserver
+
+- name: We print the steps to execute, Steps to work STEP_03.00 TO STEP_03.*
+  pause: seconds=2
+  tags: [webserver,STEP_03]
+
+- name: STEP_03.01 -> Install Apache2
+  apt: name=apache2 state=latest
+  tags: [webserver,STEP_03]
+
+- name: STEP_03.02 -> Install Moduler; Json,curl,ssh,cgi,php7.
+  apt:
+    name:
+      - php7.4-curl
+      - php7.4-json
+      - php7.4-cgi
+      - php7.4
+      - libapache2-mod-php7.4
+      - php-mbstring
+      - php-ssh2
+    state: present
+  tags: [webserver,STEP_03]
+
+- name: STEP_03.03 -> Install more Moduler; mysql,pgsql,phpmailer,soap.
+  apt:
+    name:
+      - php7.4-pgsql
+      - php7.4-mysql
+      - libphp-phpmailer
+      - php-soap
+    state: present
+  tags: [webserver,STEP_03]
+
+- name: STEP_03.04 -> Change the default directory to the controlpanel
+  lineinfile: dest=/etc/apache2/sites-available/000-default.conf regexp="/var/www/html" line="\tDocumentRoot {{controlpanel_dir}}" state=present
+  notify:
+    - Restart_Apache
+  tags: [webserver,STEP_03]

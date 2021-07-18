@@ -2,13 +2,21 @@
 # - name: ver variable
 #   debug:
 #     msg: 'mostrar variable desde softwaredesa -> {{devpro}}'
-- name: We print the steps to execute, Steps to work STEP_02.00 TO STEP_0*.0*
-  action: command echo "Steps to work STEP_02.00 TO STEP_0*.0*"
-  tags: soft_dev
+
+# run the playbook only whit the tags softdev ans exclude the prompt asking the environment
+# ansible-playbook -i inventory install_cpanel.yml -e devpro=dev --tags soft_dev
+
+# - name: We print the steps to execute, Steps to work STEP_02.00 TO STEP_0*.0*
+#   action: command echo "Steps to work STEP_02.01 TO STEP_02.04"
+#   tags: [soft_base,STEP_02]
+
+- name: We print the steps to execute, Steps to work STEP_02.00 TO STEP_02.04
+  pause: seconds=2
+  tags: [soft_base,STEP_02]
 
 - name: STEP_02.01 -> Cloc installation.
   apt: name=cloc state=latest
-  tags: soft_dev
+  tags: [soft_base,STEP_02]
 
 - name: STEP_02.02 -> samba installation.
   apt:
@@ -16,19 +24,19 @@
       - samba
       - samba-common
     state: present
-  tags: soft_dev
+  tags: [soft_base,STEP_02]
 
 - name: STEP_02.03 -> Ensure Samba is running.
   service:
     name: smbd
     state: started
     enabled: true
-  tags: soft_dev
+  tags: [soft_base,STEP_02]
 
 - name: STEP_02.04 -> Samba configuration
   template:
-    dest: "/etc/samba/"
-    src: smb.conf
+    dest: "/etc/samba/smb.conf"
+    src: smb.conf.j2
   notify:
     - Restart_Samba
-  tags: soft_dev
+  tags: [soft_base,STEP_02]

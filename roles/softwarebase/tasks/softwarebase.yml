@@ -1,14 +1,24 @@
-- name: we print the steps to execute.
-  action: command echo "Steps to work STEP_01.00 TO STEP_01.06"
+# - name: we print the steps to execute.
+#   action: command echo "Steps to work STEP_01.00 TO STEP_01.06"
+#   tags: [soft_base,STEP_01]
+- name: We print the steps to execute, Steps to work STEP_01.00 TO STEP_01.06
+  pause: seconds=2
+  tags: [soft_base,STEP_01]
 - name: STEP_01.01 -> Actualizacion Lista de paquetes.
   apt: update_cache=yes
+  tags: [soft_base,STEP_01]
 - name: STEP_01.02 -> Actualizacion de paquetes.
   apt: upgrade=dist
+  tags: [soft_base,STEP_01]
 - name: STEP_01.03 -> Instalacion de sysstat para el iodelay.
   apt: name=sysstat state=latest
+  tags: [soft_base,STEP_01]
 - name: STEP_01.04 -> Instalacion de cpulimit para limitar los procesos.
   apt: name=cpulimit state=latest
+  tags: [soft_base,STEP_01]
 - name: STEP_01.05 -> Instalacion de expect.
   apt: name=expect state=latest
-- name: STEP_01.06 -> Instalacion python3.
+  tags: [soft_base,STEP_01]
+- name: STEP_01.06 -> Instalacion pip3.
   apt: name=python3-pip state=latest
+  tags: [soft_base,STEP_01]

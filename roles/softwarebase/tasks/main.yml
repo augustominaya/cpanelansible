@@ -1,5 +1,6 @@
 - name: STEP_01 - Software installation.
   include: softwarebase.yml
+  tags: [soft_base,STEP_01]
 #We include the softwaredesa file for a development environment
 - name: we include the file to install software for development.
   include: softwaredesa.yml
