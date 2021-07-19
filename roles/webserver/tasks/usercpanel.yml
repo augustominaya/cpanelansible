@@ -30,7 +30,7 @@
     recurse: yes
   tags: [webserver,STEP_04]
 
-- name: STEP_04.04 -> controlpanel.tar into /var/www
+- name: STEP_04.04 -> copy and unzip the file controlpanel.tar into /var/www
   unarchive:
     src: controlpanel.tar
     dest: "{{www_dir}}"

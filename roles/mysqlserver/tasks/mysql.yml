@@ -1,0 +1,47 @@
+---
+# tasks file for mysqlserver
+
+- name: We print the steps to execute, Steps to work STEP_05.00 TO STEP_05.*
+  pause: seconds=2
+  tags: [mysqlserver,STEP_05]
+
+- name: STEP_05.01 -> Install Mysqlserver
+  apt: name=mysql-server state=latest
+  tags: [mysqlserver,STEP_05]
+
+- name: STEP_05.02 -> Install pymysql
+  pip:
+    name: pymysql
+    state: present
+
+- name: STEP_05.03 -> update mysql root password for root account
+  mysql_user:
+    name: root
+    login_user: root
+    login_password: '{{ password_cpanel }}'
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    host_all: yes
+    password: '{{ password_cpanel }}'
+    priv: "*.*:ALL,GRANT"
+    check_implicit_admin: true
+
+- name: STEP_05.04 -> create schema cpanel, cpanelfilemanager and cpanelutilidades
+  mysql_db:
+    login_user: root
+    login_password: '{{ password_cpanel }}'
+    name:
+      - cpanel
+      - cpanelutilidades
+      - cpanelfilemanager
+    state: present
+  tags: [mysqlserver,STEP_05]
+
+- name: STEP_05.05 -> Create user cpanel, all database privileges with the 3 schemas before create
+  mysql_user:
+    login_password: '{{ password_cpanel }}'
+    state: present
+    #state: absent
+    name: '{{cpanel_user}}'
+    password: '{{password_cpanel}}'
+    priv: '*.*:ALL,GRANT'
+  tags: [mysqlserver,STEP_05]

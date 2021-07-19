@@ -1,0 +1,5 @@
+---
+# STEP to install mysqlserver
+- name: STEP_03 - Mysql installation.
+  include: mysql.yml
+  tags: [mysqlserver,STEP_05]
