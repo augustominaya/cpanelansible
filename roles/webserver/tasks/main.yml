@@ -1,3 +1,7 @@
 - name: STEP_03 - Apache2 installation.
   include: apache2.yml
   tags: [webserver,STEP_03]
+#STEP to create a aplication user and directory.
+- name: STEP_04 - cpanel user an app direcotry.
+  include: usercpanel.yml
+  tags: [webserver,STEP_04]
