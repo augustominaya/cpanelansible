@@ -1,7 +1,7 @@
 ---
 # tasks file for webserver
 
-- name: We print the steps to execute, Steps to work STEP_03.00 TO STEP_03.*
+- name: We print the steps to execute, Steps to work STEP_03.00 TO STEP_03.4
   pause: seconds=2
   tags: [webserver,STEP_03]
 

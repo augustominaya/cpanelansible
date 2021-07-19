@@ -1,3 +1,7 @@
+---
+- name: We print the steps to execute, Steps to work STEP_04.00 TO STEP_03.5
+  pause: seconds=2
+  tags: [webserver,STEP_04]
 #we create the application group
 - name: STEP_04.01 -> Creating group cpanel
   group:
@@ -24,4 +28,16 @@
     group: "{{cpanel_gourp}}"
     mode: 0775
     recurse: yes
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.04 -> controlpanel.tar into /var/www
+  unarchive:
+    src: controlpanel.tar
+    dest: "{{www_dir}}"
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.05 -> we copy the .profile where the environment variables are located
+  template:
+    dest: "{{controlpanel_dir}}"
+    src: ".profile"
   tags: [webserver,STEP_04]
