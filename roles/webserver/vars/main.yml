@@ -1,2 +1,5 @@
 ---
 controlpanel_dir: '/var/www/controlpanel'
+password_cpanel: 'acmc0885'
+cpanel_user: 'cpanel'
+cpanel_gourp: 'cpanel'
