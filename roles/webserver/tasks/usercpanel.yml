@@ -13,7 +13,7 @@
 - name: STEP_04.02 -> Add the user cpanel
   user:
     name: "{{cpanel_user}}"
-    password: "{{password_cpanel}}"
+    password: "{{password_cpanel | password_hash('sha512') }}"
     shell: /bin/bash
     groups: "{{cpanel_gourp}}"
     home: "{{controlpanel_dir}}"

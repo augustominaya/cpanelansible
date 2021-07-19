@@ -1,0 +1,9 @@
+- name: IMporta data
+  mysql_db:
+    login_user: root
+    login_password: '{{ password_cpanel }}'
+    state: import
+    name: cpanel
+    encoding: latin1
+    target: /var/www/controlpanel/documentos/instalacion-cpanel/cpanelcargainicial.sql
+  tags: [mysqlserver,STEP_06]
