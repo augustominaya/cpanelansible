@@ -13,6 +13,11 @@
       private: no
       tags: [soft_base,STEP_02]
 
+    - name: password_input
+      prompt: Please enter the password to configure
+      private: no
+      tags: [soft_base,STEP_02]
+
 #we evaluate that the distribution is ubuntu
   tasks:
     - fail: msg="The Distro is = {{ ansible_distribution }}, can only be installed on Ubuntu"

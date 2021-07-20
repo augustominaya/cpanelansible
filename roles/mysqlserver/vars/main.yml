@@ -1,3 +1,3 @@
 ---
-password_cpanel: 'acmc0885'
+password_cpanel: '{{password_input}}'
 cpanel_user: 'cpanel'
