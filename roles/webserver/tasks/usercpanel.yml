@@ -41,3 +41,12 @@
     dest: "{{controlpanel_dir}}"
     src: ".profile"
   tags: [webserver,STEP_04]
+
+- name: STEP_04.06 -> Recursively change ownership of a directory
+  ansible.builtin.file:
+    path: "{{controlpanel_dir}}"
+    state: directory
+    recurse: yes
+    owner: cpanel
+    group: cpanel
+#name: STEP_04.05 -> we copy the .profile where the environment variables are located

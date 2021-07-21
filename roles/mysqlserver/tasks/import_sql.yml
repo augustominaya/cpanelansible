@@ -1,9 +1,33 @@
-- name: IMporta data
+
+- name: STEP_06.01 -> Importa data cpanelcargainicial.sql
   mysql_db:
     login_user: root
     login_password: '{{ password_cpanel }}'
     state: import
     name: cpanel
-    encoding: latin1
+    encoding: utf8
     target: /var/www/controlpanel/documentos/instalacion-cpanel/cpanelcargainicial.sql
   tags: [mysqlserver,STEP_06]
+  ignore_errors: True
+
+- name: STEP_06.02 -> Importa data cpanelfilemanager.sql
+  mysql_db:
+    login_user: root
+    login_password: '{{ password_cpanel }}'
+    state: import
+    name: cpanel
+    encoding: utf8
+    target: /var/www/controlpanel/documentos/instalacion-cpanel/cpanelfilemanager.sql
+  tags: [mysqlserver,STEP_06]
+  ignore_errors: True
+
+- name: STEP_06.03 -> Importa data cpanelutilidades.sql
+  mysql_db:
+    login_user: root
+    login_password: '{{ password_cpanel }}'
+    state: import
+    name: cpanel
+    encoding: utf8
+    target: /var/www/controlpanel/documentos/instalacion-cpanel/cpanelutilidades.sql
+  tags: [mysqlserver,STEP_06]
+  ignore_errors: True
