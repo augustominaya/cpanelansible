@@ -49,4 +49,13 @@
     recurse: yes
     owner: cpanel
     group: cpanel
-#name: STEP_04.05 -> we copy the .profile where the environment variables are located
+  tags: [webserver,STEP_04]
+
+
+- name: STEP_04.07 -> adding the mysqlserver in /etc/hosts file
+  lineinfile:
+    path: /etc/hosts
+    line: "{{mysqlserver_ip}} mysqlserver"
+    state: present
+    backup: yes
+  tags: [webserver,STEP_04,STEP_0407]

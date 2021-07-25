@@ -1,6 +1,6 @@
 ---
 www_dir: '/var/www/'
-controlpanel_dir: '/var/www/controlpanel'
+controlpanel_dir: '{{www_dir}}controlpanel'
 password_cpanel: '{{password_input}}'
 cpanel_user: 'cpanel'
 cpanel_gourp: 'cpanel'

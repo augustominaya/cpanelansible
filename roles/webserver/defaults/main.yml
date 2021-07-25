@@ -1,2 +1,5 @@
 ---
 # defaults file for webserver
+
+#mysqlserver_ip: '{{mysql_ip_input}}'
+mysqlserver_ip: '127.0.0.1'
