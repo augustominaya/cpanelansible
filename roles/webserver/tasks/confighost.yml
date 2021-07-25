@@ -1,0 +1,172 @@
+---
+- name: We print the steps to execute, Steps to work STEP_04.00 TO STEP_04.08
+  pause: seconds=2
+  tags: [webserver,STEP_04]
+#we create the application group
+- name: STEP_04.01 -> Creating group cpanel
+  group:
+    name: "{{cpanel_user}}"
+    state: present
+  tags: [webserver,STEP_04]
+
+#we create the application user
+- name: STEP_04.02 -> Add the user cpanel
+  user:
+    name: "{{cpanel_user}}"
+    password: "{{password_cpanel | password_hash('sha512') }}"
+    shell: /bin/bash
+    groups: "{{cpanel_gourp}}"
+    home: "{{controlpanel_dir}}"
+    append: yes
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.03 -> we create the controlpanel directory and assign permissions
+  file:
+    path: "{{controlpanel_dir}}"
+    state: directory
+    owner: "{{cpanel_user}}"
+    group: "{{cpanel_gourp}}"
+    mode: 0775
+    recurse: yes
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.04 -> copy and unzip the file controlpanel.tar into /var/www
+  unarchive:
+    src: controlpanel.tar
+    dest: "{{www_dir}}"
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.05 -> we copy the .profile where the environment variables are located
+  template:
+    dest: "{{controlpanel_dir}}"
+    src: ".profile"
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.06 -> Recursively change ownership of a directory
+  ansible.builtin.file:
+    path: "{{controlpanel_dir}}"
+    state: directory
+    recurse: yes
+    owner: cpanel
+    group: cpanel
+  tags: [webserver,STEP_04]
+
+
+- name: STEP_04.07 -> adding the mysqlserver in /etc/hosts file
+  lineinfile:
+    path: /etc/hosts
+    line: "{{mysqlserver_ip}} mysqlserver"
+    state: present
+    backup: yes
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.08 -> Set timezone to America/Caracas
+  timezone:
+    name: America/Caracas
+  tags: [webserver,STEP_04]
+
+#Step install oracle client
+
+- name: STEP_04.09 -> creation of oracle installation folder
+  file:
+    path: /opt/oracle
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: 0755
+    recurse: yes
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.10 -> copy and unzip the files instantclient-basic-linux into /opt/oracle
+  unarchive:
+    src: "instantclient-basic-linux.x64-12.1.0.2.0.zip"
+    dest: /opt/oracle
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.11 -> copy and unzip the files instantclient-sdk-linux.x64-12.1.0.2.0.zip into /opt/oracle
+  unarchive:
+    src: "instantclient-sdk-linux.x64-12.1.0.2.0.zip"
+    dest: /opt/oracle
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.12 -> Create symbolic link 01
+  file:
+   src: "{{oracle_client}}/libclntsh.so.12.1"
+   dest: "{{oracle_client}}/libclntsh.so"
+   state: link
+  tags: [webserver,STEP_04,link]
+
+- name: STEP_04.13 -> Create symbolic link 02
+  file:
+   src: "{{oracle_client}}/libocci.so.12.1"
+   dest: "{{oracle_client}}/libocci.so"
+   state: link
+  tags: [webserver,STEP_04,link]
+
+# - name: STEP_04.13 -> Create symbolic two link ---> pending
+#   file:
+#    src: "{{oracle_client}} + {{item.src}}"
+#    dest: "{{oracle_client}} + {{item.dest}}"
+#    with_items:
+#       - { src: "libclntsh.so.12.1", dest: "libclntsh.so" }
+#       - { src: "libocci.so.12.1", dest: "libocci.so" }
+#    state: link
+#   tags: [webserver,STEP_04,STEP_0413]
+
+- name: STEP_04.14 -> Create a oracle-instantclient.conf file intro ld.so.conf.d
+  lineinfile:
+    line: '{{oracle_client}}'
+    dest: /etc/ld.so.conf.d/oracle-instantclient.conf
+    create: yes
+    group: root
+    owner: root
+    mode: 0644
+  tags: [webserver,STEP_04,STEP_0414]
+
+- name: STEP_04.15 -> execute a command ldconfig
+  command: ldconfig
+  tags: [webserver,STEP_04,STEP_0415]
+
+# - name: STEP_04.16 -> Install pecl package
+#   pear:
+#     name: pecl/oci8-2.2.0
+#     state: present
+#     prompts:
+#       - (.*)compiling with Oracle Instant Client: "{{oracle_client}}"
+#   tags: [webserver,STEP_04,STEP_0416]
+
+- name: STEP_04.16 -> Install pecl package
+  expect:
+    command: pecl install oci8-2.2.0
+    responses:
+      compiling with Oracle Instant Client: "instantclient,{{ oracle_client }}"
+  ignore_errors: true
+  tags: [webserver,STEP_04]
+
+# - name: STEP_04.17 -> Configure moduler to php config ini file
+#   shell: "echo 'extension=oci8.so' >> /etc/php/7.4/apache2/php.ini &&
+#   echo 'extension=oci8.so' >> /etc/php/7.4/cgi/php.ini &&
+#   echo 'extension=oci8.so' >> /etc/php/7.4/cli/php.ini"
+#   notify:
+#     - Restart_Apache
+#   tags: [webserver,STEP_04,STEP_0417]
+
+- name: STEP_04.17 -> insert into /etc/php/7.4/apache2/php.ini the new extension = oci8.so
+  lineinfile:
+    line: 'extension=oci8.so'
+    dest: /etc/php/7.4/cgi/php.ini
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.18 -> insert into /etc/php/7.4/cgi/php.ini the new extension = oci8.so
+  lineinfile:
+    line: 'extension=oci8.so'
+    dest: /etc/php/7.4/cgi/php.ini
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.19 -> insert into /etc/php/7.4/cli/php.ini the new extension = oci8.so
+  lineinfile:
+    line: 'extension=oci8.so'
+    dest: /etc/php/7.4/cgi/php.ini
+  notify:
+    - Restart_Apache
+  tags: [webserver,STEP_04]

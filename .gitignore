@@ -1,2 +1,3 @@
 roles/webserver/templates/controlpanel.tar
 roles/webserver/files/controlpanel.tar
+roles/webserver/files/instantclient*

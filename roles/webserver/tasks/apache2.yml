@@ -19,6 +19,7 @@
       - libapache2-mod-php7.4
       - php-mbstring
       - php-ssh2
+    # name: "{{ lista_paquetes }}"
     state: present
   tags: [webserver,STEP_03]
 
@@ -32,7 +33,17 @@
     state: present
   tags: [webserver,STEP_03]
 
-- name: STEP_03.04 -> Change the default directory to the controlpanel
+- name: STEP_03.04 -> Install more php7.4-dev, php-pear,build-essential,libaio1.
+  apt:
+    name:
+      - php7.4-dev
+      - php-pear
+      - build-essential
+      - libaio1
+    state: present
+  tags: [webserver,STEP_03]
+
+- name: STEP_03.05 -> Change the default directory to the controlpanel
   lineinfile: dest=/etc/apache2/sites-available/000-default.conf regexp="/var/www/html" line="\tDocumentRoot {{controlpanel_dir}}" state=present
   notify:
     - Restart_Apache

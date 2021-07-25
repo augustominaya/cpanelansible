@@ -25,3 +25,6 @@
 - name: STEP_01.07 -> Instalacion ansible.
   apt: name=ansible state=latest
   tags: [soft_base,STEP_01]
+- name: STEP_01.08 -> install unzip.
+  apt: name=unzip state=latest
+  tags: [soft_base,STEP_01]
