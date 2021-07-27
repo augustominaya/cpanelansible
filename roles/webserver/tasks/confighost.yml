@@ -170,3 +170,8 @@
   notify:
     - Restart_Apache
   tags: [webserver,STEP_04]
+
+
+- name: STEP_04.20 -> configure the crontabfile in cpanel user
+  shell: "crontab -u cpanel /var/www/controlpanel/documentos/instalacion-cpanel/crontabconfig.cfg"
+  tags: [webserver,STEP_04,STEP_0420]
