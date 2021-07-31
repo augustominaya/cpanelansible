@@ -1,0 +1,38 @@
+---
+
+- name: STEP_07.01 -> Change key_buffer_size parameter
+  lineinfile: dest=/etc/mysql/mysql.conf.d/mysqld.cnf regexp="key_buffer_size" line="key_buffer_size\t\t= 64M" state=present
+  tags: [webserver,STEP_07]
+
+- name: STEP_07.02 -> Change max_connections parameter
+  lineinfile: dest=/etc/mysql/mysql.conf.d/mysqld.cnf regexp="max_connections" line="max_connections\t\t= 10000" state=present
+  tags: [webserver,STEP_07]
+
+- name: STEP_07.03 -> Add innodb parameter
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    line: '{{ item }}'
+  with_items:
+    - 'innodb_buffer_pool_size = 1024M'
+    - 'innodb_log_file_size = 32M'
+    - 'innodb_file_per_table =1'
+    - 'innodb_flush_method = O_DIRECT'
+    - 'innodb_write_io_threads = 8'
+    - 'innodb_read_io_threads = 4'
+    - 'innodb_buffer_pool_load_at_startup=ON'
+    - 'innodb_log_buffer_size=8M'
+    - 'innodb_flush_log_at_trx_commit=0'
+    - 'innodb_log_files_in_group=2'
+    - 'innodb_io_capacity = 2000'
+  notify: Restart_mysql
+  tags: [webserver,STEP_07]
+
+- name: STEP_07.04 -> Add infinity conexion parameter
+  lineinfile:
+    dest: /lib/systemd/system/mysql.service
+    line: '{{ item }}'
+  with_items:
+    - 'LimitNOFILE=infinity'
+    - 'LimitMEMLOCK=infinity'
+  notify: daemon_reload
+  tags: [webserver,STEP_07]

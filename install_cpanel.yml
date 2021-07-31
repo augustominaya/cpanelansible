@@ -2,7 +2,6 @@
 # script execution for desa --> ansible-playbook -i inventory install_cpanel.yml -e devpro=dev
 - name: Start the cpanel installation with Ansible
   hosts: cpanelserver
-  remote_user: aminaya
   become: true
   gather_facts: true
 

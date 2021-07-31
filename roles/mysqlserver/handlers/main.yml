@@ -1,0 +1,8 @@
+- name: Restart_mysql
+  service: name=mysql enabled=yes state=restarted
+  tags: [mysqlserver,STEP_07]
+
+- name: daemon_reload
+  systemd:
+    daemon_reload: yes
+  tags: [mysqlserver,STEP_07]

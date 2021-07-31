@@ -13,6 +13,7 @@
   pip:
     name: pymysql
     state: present
+  tags: [mysqlserver,STEP_05]
 
 - name: STEP_05.03 -> update mysql root password for root account
   mysql_user:
@@ -24,6 +25,7 @@
     password: '{{ password_cpanel }}'
     priv: "*.*:ALL,GRANT"
     check_implicit_admin: true
+  tags: [mysqlserver,STEP_05]
 
 - name: STEP_05.04 -> create schema cpanel, cpanelfilemanager and cpanelutilidades
   mysql_db:

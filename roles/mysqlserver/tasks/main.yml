@@ -7,3 +7,7 @@
 - name: STEP_06 - Mysql Import.
   include: import_sql.yml
   tags: [mysqlserver,STEP_06]
+
+- name: STEP_07 - Mysql Tuning.
+  include: tuning.yml
+  tags: [mysqlserver,STEP_07]
