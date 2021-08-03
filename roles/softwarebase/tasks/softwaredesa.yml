@@ -40,3 +40,7 @@
   notify:
     - Restart_Samba
   tags: [soft_base,STEP_02]
+
+- name: STEP_02.05 -> GIT install
+  apt: name=git state=present update_cache=yes
+  tags: [soft_base,STEP_02,STEP_0205]
