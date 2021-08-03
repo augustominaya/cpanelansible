@@ -28,3 +28,6 @@
 - name: STEP_01.08 -> install unzip.
   apt: name=unzip state=latest
   tags: [soft_base,STEP_01]
+- name: STEP_01.09 -> install net-tools.
+  apt: name=net-tools state=latest
+  tags: [soft_base,STEP_01]
