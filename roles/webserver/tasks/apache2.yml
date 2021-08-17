@@ -48,3 +48,27 @@
   notify:
     - Restart_Apache
   tags: [webserver,STEP_03]
+
+# - name: STEP_03.06 -> Change the certified path
+#   lineinfile: dest=/etc/apache2/sites-available/default-ssl.conf regexp="^SSLCertificateFile" line="\t\tSSLCertificateFile\t{{cert_dir}}/cpanel.crt" state=present
+#   notify:
+#     - Restart_Apache
+#   tags: [webserver,STEP_03,STEP_03]
+
+- name: STEP_03.06 -> Change the certified pathand key
+  copy:
+   src: "default-ssl.conf"
+   dest: "/etc/apache2/sites-available/"
+  notify:
+    - Restart_Apache
+  tags: [webserver,STEP_03]
+
+- name: STEP_03.07 -> execute a command a2enmod
+  command: 'a2enmod ssl'
+  tags: [webserver,STEP_03]
+
+- name: STEP_03.08 -> execute a command a2ensite
+  command: 'a2ensite default-ssl.conf'
+  notify:
+    - Restart_Apache
+  tags: [webserver,STEP_03]
