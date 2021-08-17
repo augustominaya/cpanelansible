@@ -6,3 +6,5 @@
   include: softwaredesa.yml
   when: devpro == "dev"
   #when: "'desa' in ambiente"
+- name: we include the file to install Jenkins.
+  include: jenkins_install.yml

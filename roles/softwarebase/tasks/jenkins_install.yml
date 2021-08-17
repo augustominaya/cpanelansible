@@ -1,0 +1,23 @@
+# - name: STEP_02.06 -> Jenkins install
+#     shell: "wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add - sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > \ /etc/apt/sources.list.d/jenkins_acmc.list' "
+#   tags: [soft_base,STEP_02,STEP_0206]
+
+- name: STEP_02.06.01 -> install java8
+  apt: name=openjdk-8-jre state=latest
+  tags: [soft_base,STEP_02,STEP_0206]
+
+- name:  STEP_02.06.02 -> Add jenkins key
+  apt_key: url=https://pkg.jenkins.io/debian-stable/jenkins.io.key state=present
+  tags: [soft_base,STEP_02,STEP_0206]
+
+- name: STEP_02.06.03 -> Add jenkins repository
+  apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
+  tags: [soft_base,STEP_02,STEP_0206]
+
+- name: STEP_02.06.04 -> install an Update Jenkins
+  apt: name=jenkins update_cache=yes
+  tags: [soft_base,STEP_02,STEP_0206]
+
+- name: STEP_02.06.05 -> start the Jenkins services
+  service: name=jenkins state=started
+  tags: [soft_base,STEP_02,STEP_0206]
