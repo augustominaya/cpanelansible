@@ -154,7 +154,7 @@
 - name: STEP_04.17 -> insert into /etc/php/7.4/apache2/php.ini the new extension = oci8.so
   lineinfile:
     line: 'extension=oci8.so'
-    dest: /etc/php/7.4/cgi/php.ini
+    dest: /etc/php/7.4/apache2/php.ini
   tags: [webserver,STEP_04]
 
 - name: STEP_04.18 -> insert into /etc/php/7.4/cgi/php.ini the new extension = oci8.so
@@ -166,7 +166,7 @@
 - name: STEP_04.19 -> insert into /etc/php/7.4/cli/php.ini the new extension = oci8.so
   lineinfile:
     line: 'extension=oci8.so'
-    dest: /etc/php/7.4/cgi/php.ini
+    dest: /etc/php/7.4/cli/php.ini
   notify:
     - Restart_Apache
   tags: [webserver,STEP_04]
