@@ -1,6 +1,7 @@
 # MAIN file to install the Cpanel
 # script execution for desa --> ansible-playbook -i inventory install_cpanel.yml -e devpro=dev
 # ansible-playbook -i inventory install_cpanel.yml -e devpro=dev -e password_input=acmc0885 -e local='no' --tags STEP_0205
+# add /etc/sudoers -> aminaya ALL=(ALL) NOPASSWD:ALL
 - name: Start the cpanel installation with Ansible
   hosts: cpanelserver
   become: true
