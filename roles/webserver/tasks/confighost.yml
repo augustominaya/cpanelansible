@@ -174,4 +174,10 @@
 
 - name: STEP_04.20 -> configure the crontabfile in cpanel user
   shell: "crontab -u cpanel /var/www/controlpanel/documentos/instalacion-cpanel/crontabconfig.cfg"
-  tags: [webserver,STEP_04,STEP_0420]
+  tags: [webserver,STEP_04]
+
+- name: STEP_04.21 -> Allow cpanel user to have passwordless sudo
+  lineinfile:
+    path: /etc/sudoers
+    line: 'cpanel ALL=(ALL) NOPASSWD:ALL'
+  tags: [webserver,STEP_04,STEP_0421]
